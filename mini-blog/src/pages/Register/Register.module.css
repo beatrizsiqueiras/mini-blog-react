@@ -1,0 +1,13 @@
+.register {
+    text-align: center;
+}
+
+.register p {
+    color: #aaa;
+    margin-bottom: 3%;
+}
+
+.register button {
+    align-items: center;
+    margin-top: 20px;
+}
