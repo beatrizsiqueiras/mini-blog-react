@@ -9,12 +9,20 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error, setError] = useState("");
 
-    const [auth, createUser, loading] = useAuthentication();
+    const { createUser, error: authError, loading } = useAuthentication();
 
     const handleSubmitRegister = async (e) => {
         e.preventDefault();
+        setError("");
+        const userData = {
+            username,
+            email,
+            password,
+        };
         if (password !== confirmPassword) {
+            setError("As senhas não correspondem!");
             toast.error("As senhas não correspondem!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -27,13 +35,25 @@ const Register = () => {
             });
             return;
         }
-        const userData = {
-            username,
-            email,
-            password,
-        };
         const newUser = await createUser(userData);
+        console.log(newUser);
     };
+
+    useEffect(() => {
+        if (authError) {
+            toast.error(authError, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }, [authError]);
+
     return (
         <div className={styles.register}>
             <h1>Cadastre-se</h1>
@@ -91,7 +111,12 @@ const Register = () => {
                         required
                     />
                 </label>
-                <button className='btn'>Cadastrar</button>
+                {!loading && <button className='btn'>Cadastrar</button>}
+                {loading && (
+                    <button className='btn' disabled>
+                        Aguarde..
+                    </button>
+                )}
             </form>
             <ToastContainer
                 position='top-right'
