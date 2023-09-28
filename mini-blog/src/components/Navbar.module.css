@@ -29,6 +29,16 @@
 }
 
 .active {
-	background-color: black;
-	color: #FFF;
+    background-color: black;
+    color: #FFF;
+}
+
+.logoutBtn {
+    color: #080808;
+    text-align: center;
+    cursor: pointer;
+    width: 10px;
+    border: none;
+    margin-top: -10px;
+    font-size: 1em;
 }

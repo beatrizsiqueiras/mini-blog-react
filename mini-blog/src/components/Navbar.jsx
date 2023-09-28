@@ -5,6 +5,15 @@ import { useAuthValue } from "../context/AuthContext";
 
 const Navbar = () => {
     const { user } = useAuthValue();
+    const { logout } = useAuthentication();
+    const linksForLoggedUsers = [
+        { key: "dashboard", to: "/dashboard", pageName: "Dashboard" },
+        { key: "createPost", to: "/posts/create", pageName: "Novo Post" },
+    ];
+    const linksForUnloggedUsers = [
+        { key: "login", to: "/login", pageName: "Entrar" },
+        { key: "register", to: "/register", pageName: "Cadastrar" },
+    ];
     return (
         <div>
             <nav className={styles.navbar}>
@@ -12,7 +21,7 @@ const Navbar = () => {
                     Mini <strong>Blog</strong>
                 </NavLink>
                 <ul className={styles.linksList}>
-                    <li>
+                    <li key='home'>
                         <NavLink
                             to='/'
                             className={({ isActive }) =>
@@ -22,27 +31,33 @@ const Navbar = () => {
                             Home
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink
-                            to='/login'
-                            className={({ isActive }) =>
-                                isActive ? styles.active : ""
-                            }
-                        >
-                            Entrar
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to='/register'
-                            className={({ isActive }) =>
-                                isActive ? styles.active : ""
-                            }
-                        >
-                            Cadastrar
-                        </NavLink>
-                    </li>
-                    <li>
+                    {user &&
+                        linksForLoggedUsers.map((link) => (
+                            <li key={link.key}>
+                                <NavLink
+                                    to={link.to}
+                                    className={({ isActive }) =>
+                                        isActive ? styles.active : ""
+                                    }
+                                >
+                                    {link.pageName}
+                                </NavLink>
+                            </li>
+                        ))}
+                    {!user &&
+                        linksForUnloggedUsers.map((link) => (
+                            <li key={link.key}>
+                                <NavLink
+                                    to={link.to}
+                                    className={({ isActive }) =>
+                                        isActive ? styles.active : ""
+                                    }
+                                >
+                                    {link.pageName}
+                                </NavLink>
+                            </li>
+                        ))}
+                    <li key='about'>
                         <NavLink
                             to='/about'
                             className={({ isActive }) =>
@@ -52,6 +67,11 @@ const Navbar = () => {
                             Sobre
                         </NavLink>
                     </li>
+                    {user && (
+                        <li>
+                            <button onClick={logout} className={styles.logoutBtn}>Sair</button>
+                        </li>
+                    )}
                 </ul>
             </nav>
         </div>
