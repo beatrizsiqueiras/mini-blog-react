@@ -35,7 +35,6 @@ export const useAuthentication = () => {
             setLoading(false);
             return user;
         } catch (error) {
-            console.log(error);
             let systemErrorMessage =
                 "Ocorreu um erro, por favor tente mais tarde!";
             let errorOptions = [
@@ -57,10 +56,41 @@ export const useAuthentication = () => {
             setError(systemErrorMessage);
         }
     };
+
     const logout = () => {
         checkIfCancelled();
         signOut(auth);
     };
+
+    const login = async (data) => {
+        checkIfCancelled();
+        setLoading(true);
+        setError(false);
+        try {
+            await signInWithEmailAndPassword(auth, data.email, data.password);
+        } catch (error) {
+            let systemErrorMessage =
+                "Ocorreu um erro, por favor tente mais tarde!";
+            let errorOptions = [
+                {
+                    error: "user-not-found",
+                    message: "Usuário não encontrado!",
+                },
+                {
+                    error: "wrong-password",
+                    message: "Senha incorreta, tente novamente!",
+                },
+            ];
+            errorOptions.map((errorOption) => {
+                if (error.message.includes(errorOption.error)) {
+                    systemErrorMessage = errorOption.message;
+                }
+            });
+            setLoading(false);
+            setError(systemErrorMessage);
+        }
+    };
+
     useEffect(() => {
         return () => setCancelled(true);
     }, []);
@@ -71,5 +101,6 @@ export const useAuthentication = () => {
         error,
         loading,
         logout,
+        login,
     };
 };
