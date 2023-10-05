@@ -12,6 +12,7 @@ const CreatePost = () => {
     const [tags, setTags] = useState([]);
     const [formError, setFormError] = useState("");
     const { user } = useAuthValue();
+    const navigate = useNavigate()
 
     const { insertDocument, response } = useInsertDocument("posts");
 
@@ -30,8 +31,9 @@ const CreatePost = () => {
         setFormError("");
         validateImageURL(image);
         const tagsArray = createTagsArray(tags);
-        //check all values
-		console.log(formError);
+        if (!title || !image || !tags || !body) {
+            setFormError("Por favor, preencha todos os campos!");
+        }
         if (formError) return;
         const newPost = {
             title,
@@ -42,6 +44,7 @@ const CreatePost = () => {
             createdBy: user.displayName,
         };
         insertDocument(newPost);
+        navigate("/")
     };
 
     useEffect(() => {
