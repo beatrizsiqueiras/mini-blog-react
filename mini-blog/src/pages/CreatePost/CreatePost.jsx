@@ -12,7 +12,7 @@ const CreatePost = () => {
     const [tags, setTags] = useState([]);
     const [formError, setFormError] = useState("");
     const { user } = useAuthValue();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const { insertDocument, response } = useInsertDocument("posts");
 
@@ -34,17 +34,21 @@ const CreatePost = () => {
         if (!title || !image || !tags || !body) {
             setFormError("Por favor, preencha todos os campos!");
         }
-        if (formError) return;
-        const newPost = {
-            title,
-            image,
-            body,
-            tagsArray,
-            uid: user.uid,
-            createdBy: user.displayName,
-        };
-        insertDocument(newPost);
-        navigate("/")
+        //com problemas
+        if (!formError) {
+            const newPost = {
+                title,
+                image,
+                body,
+                tagsArray,
+                uid: user.uid,
+                createdBy: user.displayName,
+            };
+            insertDocument(newPost);
+            navigate("/");
+        } else {
+            return;
+        }
     };
 
     useEffect(() => {

@@ -7,7 +7,7 @@
 
 .search_form {
     max-width: 100%;
-    width: 60%;
+    width: 80%;
     display: flex;
     justify-content: center;
     margin-bottom: 2em;
@@ -15,6 +15,7 @@
 
 .search_form input {
     width: 50%;
+    margin-right: 10px;
 }
 
 .no_posts {
