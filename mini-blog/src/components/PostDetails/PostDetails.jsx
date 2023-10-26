@@ -1,3 +1,4 @@
+import { PiUserThin } from "react-icons/pi";
 import styles from "./PostDetails.module.css";
 
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ const PostDetails = ({ post }) => {
         <div className={styles.post_detail}>
             <img src={post.image} alt={post.title} />
             <h2>{post.title}</h2>
-            <p className={styles.created_by}>{post.createdBy}</p>
+            <p className={styles.created_by}><PiUserThin /> {post.createdBy}</p>
             <div className={styles.tags}>
                 {post.tagsArray.map((tag) => (
                     <p key={tag}>
