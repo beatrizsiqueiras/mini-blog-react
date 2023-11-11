@@ -4,6 +4,7 @@ import { useAuthValue } from "../../context/AuthContext";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import { useDeleteDocuments } from "../../hooks/useDeleteDocuments";
 import { PiTrashSimpleLight } from "react-icons/pi";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
     const { user } = useAuthValue();
@@ -13,7 +14,25 @@ const Dashboard = () => {
 
     if (loading) return <p>Carregando..</p>;
     const deletePost = (id) => {
-        
+        Swal.fire({
+            title: "Tem certeza que deseja deletar o post?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#606c38",
+            cancelButtonColor: "#DC3545",
+            confirmButtonText: "Sim!",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteDocument(id);
+                Swal.fire({
+                    title: "Deletado!",
+                    text: "Seu post foi deletado.",
+                    icon: "success",
+                    confirmButtonColor: "#606c38",
+                });
+            }
+        });
     };
     return (
         <div className={styles.dashboard}>

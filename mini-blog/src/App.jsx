@@ -17,12 +17,12 @@ import CreatePost from "./pages/CreatePost/CreatePost";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
+import EditPost from "./pages/EditPost/EditPost";
 
 function App() {
     const [user, setUser] = useState(undefined);
     const { auth } = useAuthentication();
     const loadingUser = user === undefined;
-
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setUser(user);
@@ -53,6 +53,16 @@ function App() {
                                 path='/register'
                                 element={
                                     !user ? <Register /> : <Navigate to='/' />
+                                }
+                            ></Route>
+                            <Route
+                                path='/posts/edit/:id'
+                                element={
+                                    user ? (
+                                        <EditPost />
+                                    ) : (
+                                        <Navigate to='/login' />
+                                    )
                                 }
                             ></Route>
                             <Route
