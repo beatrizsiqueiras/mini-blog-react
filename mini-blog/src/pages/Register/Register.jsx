@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthentication } from "../../hooks/useAuthentication";
+import ReactConfetti from "../../components/ReactConfetti/ReactConfetti";
 
 const Register = () => {
     const [username, setUsername] = useState("");
@@ -36,7 +37,9 @@ const Register = () => {
             return;
         }
         const newUser = await createUser(userData);
-        console.log(newUser);
+        if (newUser) {
+            <ReactConfetti width='300' height='200' />;
+        }
     };
 
     useEffect(() => {

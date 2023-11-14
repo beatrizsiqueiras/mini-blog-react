@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
     const { user } = useAuthValue();
@@ -14,6 +15,21 @@ const Navbar = () => {
         { key: "login", to: "/login", pageName: "Entrar" },
         { key: "register", to: "/register", pageName: "Cadastrar" },
     ];
+    const confirmToLogout = () => {
+        Swal.fire({
+            title: "Tem certeza que deseja sair?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#606c38",
+            cancelButtonColor: "#DC3545",
+            confirmButtonText: "Sim!",
+            cancelButtonText: "Cancelar",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logout();
+            }
+        });
+    };
     return (
         <div>
             <nav className={styles.navbar}>
@@ -69,7 +85,12 @@ const Navbar = () => {
                     </li>
                     {user && (
                         <li>
-                            <button onClick={logout} className={styles.logoutBtn}>Sair</button>
+                            <button
+                                onClick={confirmToLogout}
+                                className={styles.logoutBtn}
+                            >
+                                Sair
+                            </button>
                         </li>
                     )}
                 </ul>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthentication } from "../../hooks/useAuthentication";
+import ReactConfetti from "../../components/ReactConfetti/ReactConfetti";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -16,8 +17,10 @@ const Login = () => {
             email,
             password,
         };
-        const newUser = await login(userData);
-        console.log(newUser);
+        const logged = await login(userData);
+        if (logged) {
+            <ReactConfetti />;
+        }
     };
 
     useEffect(() => {

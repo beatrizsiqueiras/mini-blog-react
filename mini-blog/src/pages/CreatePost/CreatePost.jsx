@@ -94,6 +94,10 @@ const CreatePost = () => {
                         onChange={(e) => setImage(e.target.value)}
                         value={image}
                     />
+                    <div>
+                        <p>Preview: </p>
+                        <img src={image} alt={title} width='100' />
+                    </div>
                 </label>
                 <label>
                     <span>Conteúdo:</span>

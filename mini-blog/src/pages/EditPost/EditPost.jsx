@@ -3,8 +3,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthValue } from "../../context/AuthContext";
-import { useInsertDocument } from "../../hooks/useInsertDocuments";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
+import { useUpdateDocument } from "../../hooks/useUpdateDocument";
+
 const EditPost = () => {
     const { id } = useParams();
     const { document: post } = useFetchDocument("posts", id);
@@ -16,6 +17,8 @@ const EditPost = () => {
     const [body, setBody] = useState("");
     const [tags, setTags] = useState([]);
     const [formError, setFormError] = useState("");
+    const { updateDocument, response } = useUpdateDocument("posts");
+
     useEffect(() => {
         if (post) {
             setTitle(post.title);
@@ -25,8 +28,6 @@ const EditPost = () => {
             setTags(textTags);
         }
     }, [post]);
-
-    const { insertDocument, response } = useInsertDocument("posts");
 
     const validateImageURL = (url) => {
         try {
@@ -46,9 +47,8 @@ const EditPost = () => {
         if (!title || !image || !tags || !body) {
             setFormError("Por favor, preencha todos os campos!");
         }
-        //com problemas
         if (!formError) {
-            const newPost = {
+            const data = {
                 title,
                 image,
                 body,
@@ -56,8 +56,8 @@ const EditPost = () => {
                 uid: user.uid,
                 createdBy: user.displayName,
             };
-            insertDocument(newPost);
-            navigate("/");
+            updateDocument(id, data);
+            navigate("/dashboard");
         } else {
             return;
         }
@@ -108,6 +108,16 @@ const EditPost = () => {
                                 onChange={(e) => setImage(e.target.value)}
                                 value={image}
                             />
+                            <div className={styles.preview}>
+                                <p className={styles.preview_title}>
+                                    Preview:{" "}
+                                </p>
+                                <img
+                                    src={image}
+                                    alt={title}
+                                    className={styles.preview_image}
+                                />
+                            </div>
                         </label>
                         <label>
                             <span>Conteúdo:</span>
@@ -131,7 +141,7 @@ const EditPost = () => {
                             />
                         </label>
                         {!response.loading && (
-                            <button className='btn'>Postar</button>
+                            <button className='btn'>Salvar</button>
                         )}
                         {response.loading && (
                             <button className='btn' disabled>

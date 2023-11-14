@@ -1,5 +1,4 @@
 import styles from "./Post.module.css";
-// import {} from "react";
 import { useParams } from "react-router-dom";
 import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { PiUserThin } from "react-icons/pi";

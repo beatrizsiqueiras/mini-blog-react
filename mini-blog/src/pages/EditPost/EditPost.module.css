@@ -11,10 +11,28 @@
     margin-bottom: 2em;
 }
 
-.edit_post textarea{
+.edit_post textarea {
     height: 100px;
 }
 
-.edit_post span{
+.edit_post span {
     margin-top: 10px;
+}
+
+.edit_post .preview {
+    display: flex;
+    text-align: left;
+    justify-content: left;
+    flex-direction: column;
+}
+
+.edit_post .preview_title {
+    margin-bottom: .2em;
+    color: #000;
+    font-weight: bold;
+}
+.edit_post .preview_image {
+    margin-bottom: .2em;
+    max-width: 50%;
+    width: 300px;
 }
