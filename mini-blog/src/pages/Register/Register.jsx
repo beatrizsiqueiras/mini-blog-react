@@ -3,27 +3,25 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthentication } from "../../hooks/useAuthentication";
-import ReactConfetti from "../../components/ReactConfetti/ReactConfetti";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const { createUser, error: authError, loading } = useAuthentication();
 
     const handleSubmitRegister = async (e) => {
         e.preventDefault();
-        setError("");
         const userData = {
             username,
             email,
             password,
         };
         if (password !== confirmPassword) {
-            setError("As senhas não correspondem!");
             toast.error("As senhas não correspondem!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -38,7 +36,7 @@ const Register = () => {
         }
         const newUser = await createUser(userData);
         if (newUser) {
-            <ReactConfetti width='300' height='200' />;
+            return navigate(`/?from=signup`);
         }
     };
 

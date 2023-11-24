@@ -4,19 +4,25 @@ import { useNavigate, Link } from "react-router-dom";
 import { useFetchDocuments } from "../../hooks/useFetchDocuments";
 import PostDetails from "../../components/PostDetails/PostDetails";
 import ReactConfetti from "../../components/ReactConfetti/ReactConfetti";
+import { useQuery } from "../../hooks/useQuery";
 
 const Home = () => {
     const [query, setQuery] = useState("");
-    const { documents: posts, loading } = useFetchDocuments("posts");
     const navigate = useNavigate();
+    const { documents: posts, loading } = useFetchDocuments("posts");
+    const urlSearch = useQuery();
+    const from = urlSearch.get("from");
+
     const handleSubmitSearch = (e) => {
         e.preventDefault();
         if (query) {
             return navigate(`/search?q=${query}`);
         }
     };
+
     return (
         <div className={styles.home}>
+            {from === "signup" && <ReactConfetti width={300} height={200} />}
             <div>
                 <h1>Veja nossos posts mais recentes!</h1>
                 <form

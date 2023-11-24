@@ -25,14 +25,17 @@ export const useAuthentication = () => {
         checkIfCancelled();
         setLoading(true);
         setError(null);
+
         try {
             const { user } = await createUserWithEmailAndPassword(
                 auth,
                 data.email,
                 data.password
             );
+
             await updateProfile(user, { displayName: data.username });
             setLoading(false);
+
             return user;
         } catch (error) {
             let systemErrorMessage =

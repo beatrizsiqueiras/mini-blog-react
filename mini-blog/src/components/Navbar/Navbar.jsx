@@ -3,18 +3,22 @@ import styles from "./Navbar.module.css";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import { useAuthValue } from "../../context/AuthContext";
 import Swal from "sweetalert2";
+import { PiUserThin } from "react-icons/pi";
 
 const Navbar = () => {
     const { user } = useAuthValue();
     const { logout } = useAuthentication();
+
     const linksForLoggedUsers = [
         { key: "dashboard", to: "/dashboard", pageName: "Dashboard" },
         { key: "createPost", to: "/posts/create", pageName: "Novo Post" },
     ];
+
     const linksForUnloggedUsers = [
         { key: "login", to: "/login", pageName: "Entrar" },
         { key: "register", to: "/register", pageName: "Cadastrar" },
     ];
+
     const confirmToLogout = () => {
         Swal.fire({
             title: "Tem certeza que deseja sair?",
@@ -30,6 +34,7 @@ const Navbar = () => {
             }
         });
     };
+
     return (
         <div>
             <nav className={styles.navbar}>
@@ -83,6 +88,18 @@ const Navbar = () => {
                             Sobre
                         </NavLink>
                     </li>
+                    {user && (
+                        <li>
+                            <NavLink
+                                to='/profile'
+                                className={({ isActive }) =>
+                                    isActive ? styles.active : ""
+                                }
+                            >
+                                <PiUserThin id='userIcon' />
+                            </NavLink>
+                        </li>
+                    )}
                     {user && (
                         <li>
                             <button

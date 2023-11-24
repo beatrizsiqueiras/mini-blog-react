@@ -1,0 +1,17 @@
+.profile {
+    text-align: center;
+}
+
+.profile p {
+    color: #aaa;
+    margin-bottom: 3%;
+}
+
+.profile button {
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile #pencilIcon {
+    font-size: 25px;
+}

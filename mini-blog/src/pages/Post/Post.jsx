@@ -4,7 +4,7 @@ import { useFetchDocument } from "../../hooks/useFetchDocument";
 import { PiUserThin } from "react-icons/pi";
 const Post = () => {
     const { id } = useParams();
-    const { document: post, loading, error } = useFetchDocument("posts", id);
+    const { document: post, loading } = useFetchDocument("posts", id);
     return (
         <div className={styles.post_container}>
             {loading && <p>Carregando post...</p>}

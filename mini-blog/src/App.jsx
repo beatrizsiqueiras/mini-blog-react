@@ -18,6 +18,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Search from "./pages/Search/Search";
 import Post from "./pages/Post/Post";
 import EditPost from "./pages/EditPost/EditPost";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
     const [user, setUser] = useState(undefined);
@@ -80,6 +81,16 @@ function App() {
                                 element={
                                     user ? (
                                         <Dashboard />
+                                    ) : (
+                                        <Navigate to='/login' />
+                                    )
+                                }
+                            ></Route>
+                            <Route
+                                path='/profile'
+                                element={
+                                    user ? (
+                                        <Profile />
                                     ) : (
                                         <Navigate to='/login' />
                                     )

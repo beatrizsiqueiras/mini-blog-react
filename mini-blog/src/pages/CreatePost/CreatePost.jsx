@@ -19,6 +19,9 @@ const CreatePost = () => {
     const validateImageURL = (url) => {
         try {
             const validUrl = new URL(url);
+            if (validUrl) {
+                return true;
+            }
         } catch (error) {
             setFormError("A imagem precisa ser uma URL!");
         }
