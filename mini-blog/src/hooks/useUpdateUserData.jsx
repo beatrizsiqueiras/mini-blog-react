@@ -20,45 +20,6 @@ export const useUpdateUserData = () => {
         }
     }
 
-    // const createUser = async (data) => {
-    //     checkIfCancelled();
-    //     setLoading(true);
-    //     setError(null);
-
-    //     try {
-    //         const { user } = await createUserWithEmailAndPassword(
-    //             auth,
-    //             data.email,
-    //             data.password
-    //         );
-
-    //         await updateProfile(user, { displayName: data.username });
-    //         setLoading(false);
-
-    //         return user;
-    //     } catch (error) {
-    //         let systemErrorMessage =
-    //             "Ocorreu um erro, por favor tente mais tarde!";
-    //         let errorOptions = [
-    //             {
-    //                 error: "Password",
-    //                 message: "A senha precisa conter pelo menos 6 caracteres!",
-    //             },
-    //             {
-    //                 error: "email-already",
-    //                 message: "Este e-mail já está cadastrado na plataforma!",
-    //             },
-    //         ];
-    //         errorOptions.map((errorOption) => {
-    //             if (error.message.includes(errorOption.error)) {
-    //                 systemErrorMessage = errorOption.message;
-    //             }
-    //         });
-    //         setLoading(false);
-    //         setError(systemErrorMessage);
-    //     }
-    // };
-
     const updateUsername = async (name) => {
         checkIfCancelled();
         setLoading(true);
@@ -76,6 +37,7 @@ export const useUpdateUserData = () => {
             setError(systemErrorMessage);
         }
     };
+
     const updateUserEmail = async (email) => {
         checkIfCancelled();
         setLoading(true);
@@ -92,14 +54,31 @@ export const useUpdateUserData = () => {
         }
     };
 
+    const updateUserPassword = async (password) => {
+        checkIfCancelled();
+        setLoading(true);
+        setError(false);
+        try {
+            const updated = await updatePassword(auth.currentUser, password);
+            setLoading(false);
+            return updated;
+        } catch (error) {
+            let systemErrorMessage =
+                "Ocorreu um erro, por favor tente mais tarde!";
+            setLoading(false);
+            setError(systemErrorMessage);
+        }
+    };
+
     useEffect(() => {
         return () => setCancelled(true);
     }, []);
 
     return {
-        auth,
         updateUsername,
         updateUserEmail,
+        updateUserPassword,
+        auth,
         error,
         loading,
     };

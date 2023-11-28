@@ -1,5 +1,5 @@
 import styles from "./Profile.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthValue } from "../../context/AuthContext";
 import { CiEdit } from "react-icons/ci";
 import { useUpdateUserData } from "../../hooks/useUpdateUserData";
@@ -7,17 +7,20 @@ import { ToastContainer, toast } from "react-toastify";
 
 const Profile = () => {
     const { user } = useAuthValue();
+    console.log(user);
     const [username, setUsername] = useState(user.displayName);
     const [email, setEmail] = useState(user.email);
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState("");
     const [editData, setEditData] = useState(false);
-    const { updateUsername, updateUserEmail } = useUpdateUserData();
+    const [changePassword, setChangePassword] = useState(false);
+    const { updateUsername, updateUserEmail, updateUserPassword } = useUpdateUserData();
 
     const handleEditData = (e) => {
         e.preventDefault();
         updateUsername(username);
         updateUserEmail(email);
+        updateUserPassword(confirmPassword);
         toast.success("Dado(s) atualizado(s) com sucesso!", {
             position: "top-right",
             autoClose: 5000,
@@ -25,10 +28,10 @@ const Profile = () => {
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            progress: undefined,
             theme: "light",
         });
     };
+
     return (
         <div className={styles.profile}>
             <h1>Olá, {user.displayName}!</h1>
@@ -63,7 +66,54 @@ const Profile = () => {
                             : { disabled: false })}
                     />
                 </label>
-                {editData && <button className='btn'>Salvar</button>}
+                {changePassword && editData && (
+                    <>
+                        <label>
+                            <span>Senha:</span>
+                            <input
+                                type='password'
+                                name='password'
+                                placeholder='Insira sua senha'
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
+                                {...(!editData
+                                    ? { disabled: true }
+                                    : { disabled: false })}
+                            />
+                        </label>
+                        <label>
+                            <span>Confirmação de senha:</span>
+                            <input
+                                type='password'
+                                name='confirmPassword'
+                                placeholder='Confirme sua senha'
+                                value={confirmPassword}
+                                onChange={(e) => {
+                                    setConfirmPassword(e.target.value);
+                                }}
+                            />
+                        </label>
+                    </>
+                )}
+
+                {editData && (
+                    <div>
+                        <a
+                            type='button'
+                            className='btn'
+                            onClick={() => {
+                                !changePassword
+                                    ? setChangePassword(true)
+                                    : setChangePassword(false);
+                            }}
+                        >
+                            Alterar senha
+                        </a>
+                        <button className='btn'>Salvar</button>
+                    </div>
+                )}
             </form>
             <button
                 className='btn btn-outline'
